@@ -31,17 +31,17 @@ resource "aws_security_group" "web_sg" {
 }
 
 resource "aws_instance" "web" {
-  ami           = "ami-08c40ec9ead489470" # Amazon Linux 2 AMI (us-east-1)
+  ami           = "ami-05576a079321f21f8" # Ubuntu 22.04 LTS (us-east-1)
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.web_sg.id]
 
   user_data = <<-EOF
               #!/bin/bash
-              yum update -y
-              yum install -y httpd
-              systemctl enable httpd
-              systemctl start httpd
+              apt-get update -y
+              apt-get install -y apache2
+              systemctl enable apache2
+              systemctl start apache2
               echo "Hello from $(hostname)" > /var/www/html/index.html
               EOF
 
